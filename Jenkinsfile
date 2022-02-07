@@ -12,7 +12,7 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
                   def pom = readMavenPom file: 'pom.xml'
                   version = pom.version
               }
-              sh "mvn clean install -DskipTests=true"
+              sh "'${M3}/bin/mvn' clean install -DskipTests=true"
             }
           }
           stage('Test')

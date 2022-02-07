@@ -1,18 +1,20 @@
 def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
       pipeline {
        agent any
-        tools {
-            maven 'M3'
-        }
+        // tools {
+        //     maven 'M3'
+        // }
         stages {
           stage('Build App') {
             steps {
+              def mvnHome = tool 'maven-3.8.4'
               git branch: 'dev', url: 'https://github.com/crazy4devops/BookStore.git'
               script {
                   def pom = readMavenPom file: 'pom.xml'
                   version = pom.version
               }
-              sh "'${M3}/bin/mvn' clean install -DskipTests=true"
+              sh "'${mvnHome}/bin/mvn' clean install -DskipTests=true"
+              //sh "'${M3}/bin/mvn' clean install -DskipTests=true"
             }
           }
           stage('Test')

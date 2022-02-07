@@ -1,19 +1,13 @@
 def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
-      pipeline
-      {
+      pipeline {
        agent any
-        tools
-        {
+        tools {
             maven 'M3'
         }
-
-        stages
-        {
-          stage('Build App')
-          {
-            steps
-             {
-              git branch: 'openshift-aws', url: 'https://github.com/pavankjadda/BookStore.git'
+        stages {
+          stage('Build App') {
+            steps {
+              git branch: 'dev', url: 'https://github.com/crazy4devops/BookStore.git'
               script {
                   def pom = readMavenPom file: 'pom.xml'
                   version = pom.version
@@ -29,12 +23,9 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
               //step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
             }
           }
-          stage('Code Analysis')
-          {
-            steps
-             {
-              script
-              {
+          stage('Code Analysis'){
+            steps{
+              script{
                       sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000"
               }
             }

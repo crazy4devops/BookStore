@@ -13,8 +13,9 @@ def version, mvnCmd = "mvn -s templates/cicd-settings-nexus3.xml"
                   def pom = readMavenPom file: 'pom.xml'
                   version = pom.version
                   def mvnHome = tool 'maven-3.8.4'
+                  sh "'${mvnHome}/bin/mvn' clean install -DskipTests=true"
               }
-              sh "'${mvnHome}/bin/mvn' clean install -DskipTests=true"
+              
               //sh "'${M3}/bin/mvn' clean install -DskipTests=true"
             }
           }
